@@ -27,20 +27,20 @@ class App extends Component {
     }
   }
 
-  addTask = (description = "None") => {
-    const { tasks } = this.state
-    const newTasks = [...tasks, { id: v4(), completed: false, description: description }]
-    this.setState({ ...this.state, tasks: newTasks })
-
+  addTask = (description) => {
+    const tasks = [...this.state.tasks, { id: v4(), completed: false, description: description }]
+    const newState = ({ ...this.state, tasks })
+    this.setState(newState)
+    return newState
   }
 
   toggleTask = (state, id) => {
-    const { tasks } = state
-    const newTasks = tasks.map(task => {
+    const tasks = state.tasks.map(task => {
       if (task.id !== id) return { ...task }
       return { ...task, completed: !task.completed }
     })
-    return { ...state, tasks: newTasks }
+    const newState = { ...state, tasks }
+    return newState
   }
 
   render() {
@@ -48,23 +48,18 @@ class App extends Component {
     const that = this
     return (
       <div>
-        <MyForm myEvent={(description) => {
-          that.addTask(description)
-        }} />
-        <ul> {tasks.map(function (task) {
-          return (
-            <li key={task.id}
-              style={{
-                textDecoration: task.completed ? 'line-through' : 'none'
-              }}
-              onClick={() => {
-                that.setState(that.toggleTask(that.state, task.id))
-              }}
-            >
-              {task.description}
-            </li>
-          )
-        })
+        <MyForm myEvent={description => that.addTask(description)} />
+        <ul> {tasks.map(({ id, completed, description }) => (
+          <li key={id}
+            style={{
+              textDecoration: completed ? 'line-through' : 'none'
+            }}
+            onClick={() => that.setState(that.toggleTask(that.state, id))}
+          >
+            {description}
+          </li>
+        )
+        )
         }
         </ul>
       </div>
