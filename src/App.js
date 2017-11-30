@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MyForm from './MyForm';
+import v4 from 'uuid/v4'
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +27,10 @@ class App extends Component {
     }
   }
 
-  addTask = () => {
+  addTask = (description = "None") => {
+    const { tasks } = this.state
+    const newTasks = [...tasks, { id: v4(), completed: false, description: description }]
+    this.setState({ ...this.state, tasks: newTasks })
 
   }
 
@@ -44,7 +48,9 @@ class App extends Component {
     const that = this
     return (
       <div>
-        <MyForm />
+        <MyForm myEvent={(description) => {
+          that.addTask(description)
+        }} />
         <ul> {tasks.map(function (task) {
           return (
             <li key={task.id}
