@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MyForm from './MyForm';
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +26,9 @@ class App extends Component {
     }
   }
 
+  addTask = () => {
+
+  }
 
   toggleTask = (state, id) => {
     const { tasks } = state
@@ -33,7 +37,6 @@ class App extends Component {
       return { ...task, completed: !task.completed }
     })
     return { ...state, tasks: newTasks }
-
   }
 
   render() {
@@ -41,6 +44,7 @@ class App extends Component {
     const that = this
     return (
       <div>
+        <MyForm />
         <ul> {tasks.map(function (task) {
           return (
             <li key={task.id}
