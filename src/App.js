@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MyForm from './components/MyForm';
 import ToggleButton from './components/ToggleButton';
+import TodoList from './components/TodoList';
 import v4 from 'uuid/v4'
 
 class App extends Component {
@@ -51,23 +52,10 @@ class App extends Component {
     return (
       <div>
         <MyForm myEvent={description => that.addTask(description)} />
-        <ul> {tasks.filter(({ completed }) => {
-          if (current === 'done') return completed
-          else if (current === 'not yet') return !completed
-          else if (current === 'all') return true
-        }).map(({ id, completed, description }) => (
-          <li key={id}
-            style={{
-              textDecoration: completed ? 'line-through' : 'none'
-            }}
-            onClick={() => that.setState(that.toggleTask(that.state, id))}
-          >
-            {description}
-          </li>
-        )
-          )
-        }
-        </ul>
+        <TodoList
+          tasks={tasks}
+          current={current}
+          $parent={(id) => that.setState(that.toggleTask(that.state, id))} />
         <p>{this.state.current}</p>
         <ToggleButton onClick={prev => this.setState({ ...prev, current: "done" })}>done</ToggleButton>
         <ToggleButton onClick={prev => this.setState({ ...prev, current: "not yet" })}>not yet</ToggleButton>
