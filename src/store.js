@@ -1,22 +1,14 @@
 import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './reducers'
 
-const addLoggingToDispatch = (store) => (rawDispatch) => (action) => {
-  console.group(action.type)
-  console.log('%c prev state', 'color: gray', store.getState())
-  console.log('%c action', 'color: blue', action)
-  const returnValue = rawDispatch(action)
-  console.log('%c next state', 'color: green', store.getState())
-  console.groupEnd(action.type)
-  return returnValue
-}
+/* Logging middleware */
+import addLoggingToDispatch from 'redux-logger'
 
-const addPromiseToDispatch = (store) => (rawDispatch) => (action) =>
-  typeof action.then === 'function' ? action.then(rawDispatch) : rawDispatch(action)
+/* recognizing Promise object middleware */
+import addPromiseToDispatch from 'redux-promise'
 
-const thunk = (store) => (rawDispatch) => (action) =>
-  typeof action === 'function' ? action(rawDispatch) : rawDispatch(action)
-
+/* thunk middleware */
+import thunk from 'redux-thunk'
 
 const middlewares = [thunk, addPromiseToDispatch, addLoggingToDispatch]
 let store = createStore(rootReducer, applyMiddleware(...middlewares))
