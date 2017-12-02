@@ -1,10 +1,8 @@
 import React from 'react'
 import Todo from './Todo'
-import store from '../store'
+import { connect } from 'react-redux'
 
-export default () => {
-  const { todo, current } = store.getState()
-  console.log(store.getState())
+const TodoList = ({ todo, current }) => {
   return (
     <ul> {todo.filter(({ completed }) => {
       switch (current) {
@@ -26,3 +24,13 @@ export default () => {
     </ul>
   )
 }
+const mapStateToProps = (state) => {
+  const { todo, current } = state
+  return {
+    todo: todo,
+    current: current
+  }
+
+}
+
+export default connect(mapStateToProps)(TodoList)

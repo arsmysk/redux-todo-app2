@@ -1,17 +1,24 @@
 import React from 'react'
 import { addTodoAction } from '../actions'
-import store from '../store'
+import { connect } from 'react-redux'
 
-export default () => {
+const MyForm = ({ addTodo }) => {
   let input = ""
   return (
     <div>
       <input type="text" ref={node => input = node} />
       <button onClick={() => {
-        store.dispatch(addTodoAction(input.value))
+        addTodo(input.value)
         input.value = ""
       }
       }>Add</button>
     </div>
   )
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (value) => dispatch(addTodoAction(value))
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(MyForm)
