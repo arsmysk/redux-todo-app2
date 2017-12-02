@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import MyForm from './components/MyForm';
 import ToggleButton from './components/ToggleButton';
 import TodoList from './components/TodoList';
-import v4 from 'uuid/v4'
-import store, { addTodoAction, toggleTodoAction } from './store'
+import store from './store'
+import { addTodoAction, toggleTodoAction } from './actions'
 
 class App extends Component {
   constructor(props) {
