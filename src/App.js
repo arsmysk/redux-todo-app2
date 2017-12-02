@@ -3,29 +3,14 @@ import MyForm from './components/MyForm';
 import ToggleButton from './components/ToggleButton';
 import TodoList from './components/TodoList';
 import v4 from 'uuid/v4'
+import store from './store'
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      tasks: [
-        {
-          id: v4(),
-          completed: false,
-          description: "My todo 1"
-        },
-        {
-          id: v4(),
-          completed: false,
-          description: "My todo 2"
-        },
-        {
-          id: v4(),
-          completed: false,
-          description: "My todo 3"
-        }
-      ],
+      tasks: store.getState(),
       current: 'all'
     }
   }
