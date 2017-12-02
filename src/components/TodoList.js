@@ -1,9 +1,12 @@
 import React from 'react'
 import Todo from './Todo'
+import store from '../store'
 
-export default ({ tasks, current }) => {
+export default () => {
+  const { todo, current } = store.getState()
+  console.log(store.getState())
   return (
-    <ul> {tasks.filter(({ completed }) => {
+    <ul> {todo.filter(({ completed }) => {
       switch (current) {
         case 'done':
           return completed
