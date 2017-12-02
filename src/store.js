@@ -29,21 +29,26 @@ export const addTodoAction = description => ({ type: TYPE.ADD_TODO, payload: { d
 export const toggleTodoAction = id => ({ type: TYPE.TOGGLE_TODO, payload: { id } })
 
 /** Reducer */
-const todoListReducer = (state = initialState, { type, payload }) => {
+const todoListReducer = (state = initialState, action) => {
+  const { type, payload } = action
   switch (type) {
     case TYPE.ADD_TODO:
       return [...state, { id: v4(), completed: false, description: payload.description }]
     case TYPE.TOGGLE_TODO:
-      return state.map(task => {
-        if (task.id !== payload.id) return { ...task }
-        return {
-          ...task,
-          completed: !task.completed
-        }
-      })
+      return todoReducer(state, action)
     default:
       return state
   }
+}
+
+const todoReducer = (state, { payload }) => {
+  return state.map(task => {
+    if (task.id !== payload.id) return { ...task }
+    return {
+      ...task,
+      completed: !task.completed
+    }
+  })
 }
 
 export default createStore(todoListReducer)
