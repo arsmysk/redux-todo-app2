@@ -1,4 +1,4 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './reducers'
 
 const addLoggingToDispatch = (store) => (rawDispatch) => {
@@ -23,14 +23,7 @@ const addPromiseToDispatch = (store) => (rawDispatch) => {
   }
 }
 
-const wrapDispatchWithMiddlewares = (store, middleware) => {
-  middleware.slice().reverse().forEach(middleware =>
-    store.dispatch = middleware(store)(store.dispatch))
-}
-
 const middlewares = [addPromiseToDispatch, addLoggingToDispatch]
-let store = createStore(rootReducer)
-
-wrapDispatchWithMiddlewares(store, middlewares)
+let store = createStore(rootReducer, applyMiddleware(...middlewares))
 
 export default store
