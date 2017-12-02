@@ -15,10 +15,8 @@ const Todo = ({ attr: { id, completed, description }, toggleTodo }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleTodo: (id) => dispatch(toggleTodoAction(id))
-  }
+const mapDispatchToProps = {
+  toggleTodo: toggleTodoAction
 }
 
 export default connect(undefined, mapDispatchToProps)(Todo)

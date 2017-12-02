@@ -24,13 +24,6 @@ const TodoList = ({ todo, current }) => {
     </ul>
   )
 }
-const mapStateToProps = (state) => {
-  const { todo, current } = state
-  return {
-    todo: todo,
-    current: current
-  }
-
-}
+const mapStateToProps = ({ todo, current }) => ({ todo, current })
 
 export default connect(mapStateToProps)(TodoList)
