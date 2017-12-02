@@ -25,8 +25,8 @@ const initialState = [
   }
 ]
 
-export const addTodoAction = ({ description }) => ({ type: TYPE.ADD_TODO, payload: { description } })
-export const toggleTodoAction = (id) => ({ type: TYPE.TOGGLE_TODO, payload: { id } })
+export const addTodoAction = description => ({ type: TYPE.ADD_TODO, payload: { description } })
+export const toggleTodoAction = id => ({ type: TYPE.TOGGLE_TODO, payload: { id } })
 
 /** Reducer */
 const todoListReducer = (state = initialState, { type, payload }) => {
@@ -34,12 +34,15 @@ const todoListReducer = (state = initialState, { type, payload }) => {
     case TYPE.ADD_TODO:
       return [...state, { id: v4(), completed: false, description: payload.description }]
     case TYPE.TOGGLE_TODO:
-
-      return state.tasks.map(task => {
+      return state.map(task => {
         if (task.id !== payload.id) return { ...task }
-        return { ...task, completed: !task.completed }
+        return {
+          ...task,
+          completed: !task.completed
+        }
       })
-    default: state
+    default:
+      return state
   }
 }
 
