@@ -1,8 +1,7 @@
 import { createStore } from 'redux'
 import rootReducer from './reducers'
 
-const addLoggingToDispatch = (store) => {
-  const rawDispatch = store.dispatch
+const addLoggingToDispatch = (store) => (rawDispatch) => {
   return (action) => {
     console.group(action.type)
     console.log('%c prev state', 'color: gray', store.getState())
@@ -14,8 +13,7 @@ const addLoggingToDispatch = (store) => {
   }
 }
 
-const addPromiseToDispatch = (store) => {
-  const rawDispatch = store.dispatch
+const addPromiseToDispatch = (store) => (rawDispatch) => {
   return (action) => {
     if (typeof action.then === 'function') {
       return action.then(rawDispatch)
@@ -25,7 +23,14 @@ const addPromiseToDispatch = (store) => {
   }
 }
 
+const wrapDispatchWithMiddlewares = (store, middleware) => {
+  middleware.slice().reverse().forEach(middleware =>
+    store.dispatch = middleware(store)(store.dispatch))
+}
+
+const middlewares = [addPromiseToDispatch, addLoggingToDispatch]
 let store = createStore(rootReducer)
-store.dispatch = addLoggingToDispatch(store)
-store.dispatch = addPromiseToDispatch(store)
+
+wrapDispatchWithMiddlewares(store, middlewares)
+
 export default store
