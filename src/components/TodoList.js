@@ -2,10 +2,10 @@ import React from 'react'
 import Todo from './Todo'
 import { connect } from 'react-redux'
 
-const TodoList = ({ todo, current }) => {
+const TodoList = ({ todo, filter }) => {
   return (
     <ul> {todo.filter(({ completed }) => {
-      switch (current) {
+      switch (filter) {
         case 'done':
           return completed
         case 'not yet':
@@ -24,6 +24,8 @@ const TodoList = ({ todo, current }) => {
     </ul>
   )
 }
-const mapStateToProps = ({ todo, current }) => ({ todo, current })
-
+const mapStateToProps = ({ todo }, ownProps) => {
+  const { filter } = ownProps
+  return ({ todo, filter })
+}
 export default connect(mapStateToProps)(TodoList)
