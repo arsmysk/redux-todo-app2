@@ -4,4 +4,3 @@ export const addTodoAction = description => ({ type: TYPE.ADD_TODO, payload: { d
 export const toggleTodoAction = id => dispatch => setTimeout(() => {
   dispatch({ type: TYPE.TOGGLE_TODO, payload: { id } })
 }, 500)
-export const currentAction = current => ({ type: TYPE.CURRENT, payload: { current } })
