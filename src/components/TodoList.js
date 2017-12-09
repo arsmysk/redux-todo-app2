@@ -1,6 +1,7 @@
 import React from 'react'
 import Todo from './Todo'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const TodoList = ({ todo, filter }) => {
   return (
@@ -8,7 +9,7 @@ const TodoList = ({ todo, filter }) => {
       switch (filter) {
         case 'done':
           return completed
-        case 'not yet':
+        case 'notyet':
           return !completed
         default:
           return true
@@ -25,7 +26,10 @@ const TodoList = ({ todo, filter }) => {
   )
 }
 const mapStateToProps = ({ todo }, ownProps) => {
-  const { filter } = ownProps
-  return ({ todo, filter })
+  const { match } = ownProps
+  return {
+    todo: todo,
+    filter: match.params.filter || 'all'
+  }
 }
-export default connect(mapStateToProps)(TodoList)
+export default withRouter(connect(mapStateToProps)(TodoList))

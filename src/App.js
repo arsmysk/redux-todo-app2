@@ -7,7 +7,7 @@ const App = ({ match }) => {
   return (
     <div>
       <MyForm />
-      <TodoList filter={match.params.filter || 'all'} />
+      <TodoList />
       <ToggleButton type={'done'}>done</ToggleButton>
       <ToggleButton type={'notyet'}>not yet</ToggleButton>
       <ToggleButton type={'all'}>all</ToggleButton>
